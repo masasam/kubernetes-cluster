@@ -1,4 +1,6 @@
-kubernetes: ## Init kubernetes 
+kubernetes: ## Init kubernetes
+	yaourt kubeadm-bin
+	yaourt kubelet-bin
 	yaourt google-cloud-sdk
 	sudo gcloud components update kubectl
 	gcloud init
@@ -65,6 +67,18 @@ kubernetes-delete-yaml: ## Delete kubernetes cluster from yaml
 	kubectl delete -f deploy.yaml
 	kubectl delete -f service.yaml
 	gcloud container clusters delete myapp-cluster
+
+kubernetes-portforward-mariadb: ## Portforward for mariadb
+	kubectl port-forward mysql-podname 3306:3306
+
+kubernetes-mysql-dump: ## Kubernetes-portforward-mariadb next to command
+mysqldump -u root -p -h 127.0.0.1 dbname > mysqldump
+
+kubernetes-portforward-postgres: ## Portforward for postgres
+	kubectl port-forward postgres-potname 5432:5432
+
+kubernetes-postgres-dmup: ## Kubernetes-portforward-postgres next to command
+	pg_dump -U root -h localhost dbname > pgdump
 
 .PHONY:
 
