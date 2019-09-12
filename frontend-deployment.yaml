@@ -19,6 +19,14 @@ spec:
       containers:
       - name: php-redis
         image: gcr.io/google-samples/gb-frontend:v4
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          periodSeconds: 10
+          failureThreshold: 3
         resources:
           requests:
             cpu: 100m
